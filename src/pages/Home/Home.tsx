@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useContext, useEffect, useState } from "react";
 import Container from "../../components/container/container";
 import { Link } from "react-router-dom";
 
@@ -6,6 +6,7 @@ import "./Home.scss";
 import { IPerson } from "./models";
 import Card from "../../components/card/card";
 import { useCountPeople } from "../../hooks/useCountPeople";
+import { ContextWrapper } from "../../context/context";
 
 const Home: FC<{}> = () => {
   const [page, setPage] = useState<number>(1);
@@ -13,6 +14,7 @@ const Home: FC<{}> = () => {
   const [loader, setLoader] = useState<boolean>(false);
   const [image, setImage] = useState<string>("");
 
+  const context = useContext(ContextWrapper);
   const countPeoples = useCountPeople();
 
   const fetchPeople = async () => {
@@ -23,6 +25,14 @@ const Home: FC<{}> = () => {
       fetch("https://swapi.py4e.com/api/people/" + count)
         .then((response) => response.json())
         .then((data) => {
+          // context?.setName(data.name);
+          // context?.setVehicles([...data.vehicles]);
+          // context?.setCreated([...data.created]);
+
+          sessionStorage.setItem("name", data.name);
+          sessionStorage.setItem("vehicles", data.vehicles);
+          sessionStorage.setItem("created", data.created);
+
           setPerson(data);
           setImage(
             () => "https://picsum.photos/534/383?t=" + new Date().getTime()

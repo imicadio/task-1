@@ -1,19 +1,21 @@
-import React, { FC, useState } from "react";
+import React, { FC, useContext, useState } from "react";
 import Container from "../../components/container/container";
+import { ContextWrapper } from "../../context/context";
 import { formValid } from "../../helpers/formValid";
 import "./Form.scss";
 
-import { IProduct } from "./IProduct.model";
+import { IPerson } from "./IPerson.model";
 
 const Forms: FC<{}> = () => {
+  const context = useContext(ContextWrapper);
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
   const [form, setForm] = useState<{
-    [key: string]: IProduct;
-    login: IProduct;
-    password: IProduct;
-    email: IProduct;
-    phone: IProduct;
-    checkbox: IProduct;
+    [key: string]: IPerson;
+    login: IPerson;
+    password: IPerson;
+    email: IPerson;
+    phone: IPerson;
+    checkbox: IPerson;
   }>({
     login: {
       text: "Login",
@@ -90,9 +92,45 @@ const Forms: FC<{}> = () => {
     }
   };
 
+  const postData = async (url: string, data: object) => {
+    try {
+      const response = await fetch(url, {
+        method: "post",
+        body: JSON.stringify(data),
+      });
+
+      const responseData = await response.json();
+
+      if (!responseData.ok) {
+        return;
+      }
+
+      console.log("DATA: ", data);
+      console.log("DATA stringify: ", JSON.stringify(data));
+      console.log(responseData);
+    } catch (e) {
+      console.log("DATA: ", data);
+      console.log("DATA stringify: ", JSON.stringify(data));
+      console.log("Nie udało się wysłać danych: ", e);
+    }
+  };
+
   const handleSubmit = () => {
-    setIsSubmitted(() => true);
-    console.log(form);
+    const validForm = Object.values(form).map((item) => !item.error);
+    const isValid = validForm.every(Boolean);
+
+    if (!isValid) {
+      return setIsSubmitted(() => true);
+    }
+
+    postData("https://example/", {
+      form,
+      person: [
+        sessionStorage.getItem("name"),
+        sessionStorage.getItem("vehicles"),
+        sessionStorage.getItem("created"),
+      ],
+    });
   };
 
   const renderInputs = Object.entries(form).map((item, id) => {

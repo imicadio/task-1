@@ -1,4 +1,4 @@
-export interface IProduct {
+export interface IPerson {
   text?: string | null | undefined;
   value?: string | null | boolean;
   error?: boolean;
