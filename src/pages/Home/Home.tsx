@@ -1,9 +1,11 @@
 import React, { FC, useEffect, useState } from "react";
 import Container from "../../components/container/container";
+import { Link } from "react-router-dom";
 
 import "./Home.scss";
 import { IPerson } from "./models";
 import Card from "../../components/card/card";
+import { useCountPeople } from "../../hooks/useCountPeople";
 
 const Home: FC<{}> = () => {
   const [page, setPage] = useState<number>(1);
@@ -11,15 +13,20 @@ const Home: FC<{}> = () => {
   const [loader, setLoader] = useState<boolean>(false);
   const [image, setImage] = useState<string>("");
 
+  const countPeoples = useCountPeople();
+
   const fetchPeople = async () => {
     setLoader(() => true);
     setImage(() => "");
     try {
-      fetch("https://swapi.py4e.com/api/people/" + page)
+      const count = countPeoples == page ? 1 : page;
+      fetch("https://swapi.py4e.com/api/people/" + count)
         .then((response) => response.json())
         .then((data) => {
           setPerson(data);
-          setImage(() => "https://picsum.photos/534/383?t=" + new Date().getTime());
+          setImage(
+            () => "https://picsum.photos/534/383?t=" + new Date().getTime()
+          );
           setLoader(() => false);
         });
     } catch (e) {
@@ -43,14 +50,15 @@ const Home: FC<{}> = () => {
       <Container container customClass="min-h-100 py-1 px-4">
         <div className="homepage_header d-flex-row d-sb">
           <a href="https://github.com/imicadio/imicadio">Michał Jeszko</a>
-          <button
+          <Link
+            to="/forms"
             type="button"
             className="header__btn border-none text-italic text-color-white font-size-normal bg-d--green text-left w-100 d-flex d-j-center"
           >
             <span>
               formularz <br /> rejestracyjny
             </span>
-          </button>
+          </Link>
         </div>
         <Container element="section">
           <div className="homepage__section bg--gray">{renderPerson}</div>

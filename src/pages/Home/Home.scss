@@ -1,6 +1,16 @@
 .homepage_header {
   .header__btn {
     max-width: 236px;
+    font-family: "Lato", sans-serif;
+    font-size: 30px;
+    font-style: italic;
+    border-radius: 20px;
+    line-height: 30px;
+    cursor: pointer;
+    box-shadow: 10px 4px 4px rgba(0, 0, 0, 0.75);
+    padding-top: 10px;
+    padding-bottom: 10px;
+    text-decoration: none;
   }
 }
 
