@@ -1,0 +1,29 @@
+@import './colors.scss';
+
+.text {
+  &-italic {
+    font-style: italic;
+  }
+
+  &-color {
+    &-white {
+      color: $c-white;
+    }
+  }
+
+  &-left {
+    text-align: left;
+  }
+
+  &-center {
+    text-align: center;
+  }
+}
+
+.font {
+    &-size {
+        &-normal {
+            font-size: 30px;
+        }
+    }
+}

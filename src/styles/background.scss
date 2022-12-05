@@ -1,0 +1,15 @@
+@import './colors.scss';
+
+.bg{
+    &-d--green {
+        background-color: $c-dark-green;
+    }
+
+    &--green {
+        background-color: $c-green;
+    }
+
+    &--gray {
+        background-color: $c-gray;
+    }
+}

@@ -1,0 +1,11 @@
+@import './styles/index.scss';
+
+body {
+  height: 100vh;
+  background-color: $c-gray;
+  font-family: 'Lato', sans-serif;
+}
+
+#root {
+  height: 100vh;
+}
